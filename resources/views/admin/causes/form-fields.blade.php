@@ -1,6 +1,6 @@
 <!-- Cause Title -->
 <div class="mb-4">
-    <label for="title" class="block text-gray-300 text-sm font-bold mb-2">Cause Title</label>
+    <label for="title" class="block text-gray-300 text-sm font-bold mb-2">Campaign Title</label>
     <input type="text" name="title" id="title" value="{{ old('title', $cause->title ?? '') }}" 
            class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
            required>
@@ -48,7 +48,7 @@
 
 <!-- Cause Image -->
 <div class="mb-4">
-    <label for="image" class="block text-gray-300 text-sm font-bold mb-2">Cause Image</label>
+    <label for="image" class="block text-gray-300 text-sm font-bold mb-2">Campaign Image</label>
     @if(isset($cause) && $cause->image)
     <div class="mb-3">
         <img src="{{ asset('storage/' . $cause->image) }}" alt="{{ $cause->title }}" class="h-40 rounded-lg">
@@ -65,7 +65,7 @@
 
 <!-- Cause Type Selection -->
 <div class="mb-4">
-    <label class="block text-gray-300 text-sm font-bold mb-2">Cause Type</label>
+    <label class="block text-gray-300 text-sm font-bold mb-2">Campaign Type</label>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label class="flex items-center p-4 bg-gray-700 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-650">
             <input type="radio" name="cause_type" value="general" 
@@ -100,7 +100,7 @@
                class="mr-2 rounded bg-gray-800 border-gray-600 text-yellow-500 focus:ring-yellow-500">
         <div>
             <span class="text-white font-medium">Mark as Urgent</span>
-            <p class="text-sm text-gray-400">Highlight this cause as requiring immediate attention</p>
+            <p class="text-sm text-gray-400">Highlight this campaign as requiring immediate attention</p>
         </div>
     </label>
 </div>

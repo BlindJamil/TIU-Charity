@@ -1,18 +1,18 @@
 @extends('admin.layout')
 
-@section('title', 'Manage Causes')
+@section('title', 'Manage Campaigns')
 
 @section('content')
 <div class="bg-gray-900 min-h-screen text-white p-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Manage Causes</h1>
-        @if(auth('admin')->user()->hasPermission('manage_causes'))
+        <h1 class="text-3xl font-bold">Manage Campaigns</h1>
+        @if(auth('admin')->user()->hasPermission('manage_campaigns'))
             <a href="{{ route('admin.causes.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
-                + Add New Cause
+                + Add New Campaign
             </a>
         @else
-            <button disabled class="bg-gray-600 text-gray-400 px-4 py-2 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to create causes">
-                + Add New Cause
+            <button disabled class="bg-gray-600 text-gray-400 px-4 py-2 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to create campaigns">
+                + Add New Campaign
             </button>
         @endif
     </div>
@@ -33,7 +33,7 @@
                 @foreach ($causes as $cause)
                     <tr class="border-b border-gray-600">
                         <td class="p-2">
-                            <img src="{{ asset('storage/' . $cause->image) }}" alt="Cause Image" class="w-16 h-16 rounded-md object-cover">
+                            <img src="{{ asset('storage/' . $cause->image) }}" alt="Campaign Image" class="w-16 h-16 rounded-md object-cover">
                         </td>
                         <td class="p-2">{{ $cause->title }}</td>
                         <td class="p-2 text-orange-400">${{ number_format($cause->goal, 2) }}</td>
@@ -58,9 +58,9 @@
                             @endif
                         </td>
                         <td class="p-2 flex space-x-2">
-                            @if(auth('admin')->user()->hasPermission('manage_causes'))
+                            @if(auth('admin')->user()->hasPermission('manage_campaigns'))
                                 <a href="{{ route('admin.causes.edit', $cause->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">Edit</a>
-                                <form action="{{ route('admin.causes.destroy', $cause->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this cause?');">
+                                <form action="{{ route('admin.causes.destroy', $cause->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this campaign?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition">
@@ -68,8 +68,8 @@
                                     </button>
                                 </form>
                             @else
-                                <button disabled class="bg-gray-600 text-gray-400 px-3 py-1 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to edit causes">Edit</button>
-                                <button disabled class="bg-gray-600 text-gray-400 px-3 py-1 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to delete causes">Delete</button>
+                                <button disabled class="bg-gray-600 text-gray-400 px-3 py-1 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to edit campaigns">Edit</button>
+                                <button disabled class="bg-gray-600 text-gray-400 px-3 py-1 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to delete campaigns">Delete</button>
                             @endif
                         </td>
                     </tr>
@@ -78,7 +78,7 @@
         </table>
 
         @if($causes->isEmpty())
-            <p class="text-center text-gray-400 mt-4">No causes found.</p>
+            <p class="text-center text-gray-400 mt-4">No campaigns found.</p>
         @endif
     </div>
 </div>

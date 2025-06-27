@@ -98,7 +98,12 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-400">
-                                        No projects found. <a href="{{ route('admin.projects.create') }}" class="text-yellow-500 hover:text-yellow-300">Create one</a>.
+                                        No projects found.
+                                        @if(auth('admin')->user()->hasPermission('manage_volunteers'))
+                                            <a href="{{ route('admin.projects.create') }}" class="text-yellow-500 hover:text-yellow-300">Create one</a>.
+                                        @else
+                                            <span class="text-gray-500">Create one</span>.
+                                        @endif
                                     </td>
                                 </tr>
                             @endforelse

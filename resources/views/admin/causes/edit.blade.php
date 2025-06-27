@@ -1,13 +1,13 @@
 @extends('admin.layout')
 
-@section('title', 'Edit Cause')
+@section('title', 'Edit Campaign')
 
 @section('content')
 <div class="bg-gray-900 min-h-screen text-white p-8">
     <div class="md:flex md:items-center">
         <div>
-            <h2 class="text-2xl font-medium leading-6 text-white">Edit Cause</h2>
-            <p class="mt-1 text-sm text-gray-500">Update this cause's details and settings. Urgent and active campaigns will appear in the Recent Campaigns section.</p>
+            <h2 class="text-2xl font-medium leading-6 text-white">Edit Campaign</h2>
+            <p class="mt-1 text-sm text-gray-500">Update this campaign's details and settings. Urgent and active campaigns will appear in the Recent Campaigns section.</p>
         </div>
         <div class="ml-auto mt-4 md:mt-0">
             <form action="{{ route('admin.causes.update', $cause->id) }}" method="POST" enctype="multipart/form-data">
@@ -30,14 +30,14 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-300">Cause Image</label>
+                    <label class="block text-gray-300">Campaign Image</label>
                     <input type="file" name="image" class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-orange-400">
                     <p class="text-gray-400 text-sm mt-2">Current image:</p>
-                    <img src="{{ asset('storage/' . $cause->image) }}" alt="Cause Image" class="w-32 h-32 rounded-md mt-2 object-cover">
+                    <img src="{{ asset('storage/' . $cause->image) }}" alt="Campaign Image" class="w-32 h-32 rounded-md mt-2 object-cover">
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-300 mb-2">Cause Type</label>
+                    <label class="block text-gray-300 mb-2">Campaign Type</label>
                     <div class="flex flex-col space-y-2">
                         <label class="inline-flex items-center">
                             <input type="radio" name="cause_type" value="general" {{ $cause->is_recent ? '' : 'checked' }} class="text-yellow-500 bg-gray-700 border-gray-600 focus:ring-yellow-500" id="general_cause">
@@ -75,7 +75,7 @@
                 </div>
 
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition">
-                    Update Cause
+                    Update Campaign
                 </button>
 
                 @if ($errors->any())

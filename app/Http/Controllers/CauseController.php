@@ -36,7 +36,7 @@ class CauseController extends Controller
     public function store(Request $request)
     {
         // Check if user has permission to manage causes (not just view)
-        if (!auth('admin')->user()->hasPermission('manage_causes')) {
+        if (!auth('admin')->user()->hasPermission('manage_campaigns')) {
             abort(403, 'Unauthorized action. You can only view causes.');
         }
         
@@ -90,7 +90,7 @@ class CauseController extends Controller
     public function update(Request $request, $id)
     {
         // Check if user has permission to manage causes (not just view)
-        if (!auth('admin')->user()->hasPermission('manage_causes')) {
+        if (!auth('admin')->user()->hasPermission('manage_campaigns')) {
             abort(403, 'Unauthorized action. You can only view causes.');
         }
         
@@ -135,7 +135,7 @@ class CauseController extends Controller
     public function destroy($id)
     {
         // Check if user has permission to manage causes (not just view)
-        if (!auth('admin')->user()->hasPermission('manage_causes')) {
+        if (!auth('admin')->user()->hasPermission('manage_campaigns')) {
             abort(403, 'Unauthorized action. You can only view causes.');
         }
         

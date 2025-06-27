@@ -13,31 +13,21 @@ class PermissionRoleSeeder extends Seeder
     {
         // Define permissions
         $permissions = [
-            // Admin & Dashboard
-            ['name' => 'view_dashboard', 'display_name' => 'View Dashboard', 'group' => 'admin'],
-            ['name' => 'manage_admins', 'display_name' => 'Manage Administrators', 'group' => 'admin'],
-            ['name' => 'manage_roles', 'display_name' => 'Manage Roles', 'group' => 'admin'],
-
+            // Admins
+            ['name' => 'manage_admins', 'display_name' => 'Manage Admins', 'group' => 'admins'],
+            ['name' => 'view_admins', 'display_name' => 'View Admins', 'group' => 'admins'],
+            // Campaigns
+            ['name' => 'manage_campaigns', 'display_name' => 'Manage Campaigns', 'group' => 'campaigns'],
+            ['name' => 'view_campaigns', 'display_name' => 'View Campaigns', 'group' => 'campaigns'],
             // Donations
-            ['name' => 'view_donations', 'display_name' => 'View Donations', 'group' => 'donations'],
             ['name' => 'manage_donations', 'display_name' => 'Manage Donations', 'group' => 'donations'],
-
-            // Causes
-            ['name' => 'view_causes', 'display_name' => 'View Causes', 'group' => 'causes'],
-            ['name' => 'manage_causes', 'display_name' => 'Manage Causes', 'group' => 'causes'],
-            ['name' => 'approve_causes', 'display_name' => 'Approve Causes', 'group' => 'causes'],
-
+            ['name' => 'view_donations', 'display_name' => 'View Donations', 'group' => 'donations'],
             // Volunteers
-            ['name' => 'view_volunteers', 'display_name' => 'View Volunteers', 'group' => 'volunteers'],
             ['name' => 'manage_volunteers', 'display_name' => 'Manage Volunteers', 'group' => 'volunteers'],
-
-            // Departments (Projects)
-            ['name' => 'view_departments', 'display_name' => 'View Departments', 'group' => 'departments'],
-            ['name' => 'manage_departments', 'display_name' => 'Manage Departments', 'group' => 'departments'],
-
-            // Contact Messages
-            ['name' => 'view_messages', 'display_name' => 'View Messages', 'group' => 'messages'],
+            ['name' => 'view_volunteers', 'display_name' => 'View Volunteers', 'group' => 'volunteers'],
+            // Messages
             ['name' => 'manage_messages', 'display_name' => 'Manage Messages', 'group' => 'messages'],
+            ['name' => 'view_messages', 'display_name' => 'View Messages', 'group' => 'messages'],
         ];
 
         foreach ($permissions as $permission) {
@@ -48,34 +38,58 @@ class PermissionRoleSeeder extends Seeder
         $roles = [
             [
                 'name' => 'super_admin',
-                'display_name' => 'Super Administrator',
-                'description' => 'Full access to all features of the application.',
-                'permissions' => Permission::pluck('name')->toArray() // Super admin gets all permissions
+                'display_name' => 'Super Admin',
+                'description' => 'Full access to all features of the system',
+                'permissions' => array_column($permissions, 'name'),
             ],
             [
-                'name' => 'dashboard_viewer',
-                'display_name' => 'Dashboard Viewer',
-                'description' => 'Can only view the main dashboard statistics. Has no editing permissions.',
-                'permissions' => ['view_dashboard']
+                'name' => 'admin_manager',
+                'display_name' => 'Admin Manager',
+                'description' => 'Can manage admin users only',
+                'permissions' => ['manage_admins', 'view_admins'],
             ],
             [
-                'name' => 'accounting_admin',
-                'display_name' => 'Accounting Administrator',
-                'description' => 'Manages financial records, views and manages donations.',
-                'permissions' => ['view_dashboard', 'view_donations', 'manage_donations']
+                'name' => 'campaign_manager',
+                'display_name' => 'Campaign Manager',
+                'description' => 'Can manage campaigns only',
+                'permissions' => ['manage_campaigns', 'view_campaigns'],
             ],
             [
-                'name' => 'content_manager',
-                'display_name' => 'Content Manager',
-                'description' => 'Manages public content like causes and volunteer projects.',
-                'permissions' => ['view_dashboard', 'view_causes', 'manage_causes', 'view_volunteers', 'manage_volunteers']
+                'name' => 'donation_manager',
+                'display_name' => 'Donation Manager',
+                'description' => 'Can manage donations only',
+                'permissions' => ['manage_donations', 'view_donations'],
+            ],
+            [
+                'name' => 'volunteer_manager',
+                'display_name' => 'Volunteer Manager',
+                'description' => 'Can manage volunteers only',
+                'permissions' => ['manage_volunteers', 'view_volunteers'],
             ],
             [
                 'name' => 'message_manager',
                 'display_name' => 'Message Manager',
-                'description' => 'Views and manages incoming contact messages from the public.',
-                'permissions' => ['view_dashboard', 'view_messages', 'manage_messages']
-            ]
+                'description' => 'Can manage messages only',
+                'permissions' => ['manage_messages', 'view_messages'],
+            ],
+            [
+                'name' => 'campaign_viewer',
+                'display_name' => 'Campaign Viewer',
+                'description' => 'Can only view campaigns',
+                'permissions' => ['view_campaigns'],
+            ],
+            [
+                'name' => 'donation_viewer',
+                'display_name' => 'Donation Viewer',
+                'description' => 'Can only view donations',
+                'permissions' => ['view_donations'],
+            ],
+            [
+                'name' => 'volunteer_viewer',
+                'display_name' => 'Volunteer Viewer',
+                'description' => 'Can only view volunteers',
+                'permissions' => ['view_volunteers'],
+            ],
         ];
 
         foreach ($roles as $roleData) {

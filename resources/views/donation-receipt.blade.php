@@ -116,8 +116,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                    </div>
-                    <div>
+                        </div>
+                        <div>
                         <h3 class="text-md font-medium text-white mb-1">Office Hours</h3>
                         <p class="text-gray-400 text-sm">Sunday - Thursday:</p>
                         <p class="text-white font-semibold">8:30 AM - 4:30 PM</p>

@@ -19,11 +19,11 @@
                     @if(Auth::guard('admin')->check())
                         <a href="{{ route('admin.dashboard') }}" class="text-gray-300 hover:text-white">Dashboard</a>
                     @endif
-                    @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_causes'))
-                        <a href="{{ route('admin.causes.index') }}" class="text-gray-300 hover:text-white">Causes</a>
+                    @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_campaigns'))
+                        <a href="{{ route('admin.causes.index') }}" class="text-gray-300 hover:text-white">Campaigns</a>
                     @endif
                     @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_donations'))
-                        <a href="{{ route('admin.donations') }}" class="text-gray-300 hover:text-white">Donations</a>
+                        <a href="{{ route('admin.donations.index') }}" class="text-gray-300 hover:text-white">Donations</a>
                     @endif
                     @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_volunteers'))
                         <a href="{{ route('admin.projects.index') }}" class="text-gray-300 hover:text-white">Volunteer</a>
@@ -55,11 +55,11 @@
                 @if(Auth::guard('admin')->check())
                     <a href="{{ route('admin.dashboard') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
                 @endif
-                @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_causes'))
-                    <a href="{{ route('admin.causes.index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Causes</a>
+                @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_campaigns'))
+                    <a href="{{ route('admin.causes.index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Campaigns</a>
                 @endif
                 @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_donations'))
-                    <a href="{{ route('admin.donations') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Donations</a>
+                    <a href="{{ route('admin.donations.index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Donations</a>
                 @endif
                 @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermission('view_volunteers'))
                     <a href="{{ route('admin.projects.index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Volunteer</a>

@@ -1,16 +1,16 @@
 @extends('admin.layout')
 
-@section('title', 'Create Cause')
+@section('title', 'Create Campaign')
 
 @section('content')
 <div class="bg-gray-900 min-h-screen text-white p-8">
     <div class="md:flex md:items-center">
         <div>
-            <h2 class="text-2xl font-medium leading-6 text-white">Create New Cause</h2>
-            <p class="mt-1 text-sm text-gray-500">Add a new cause to support your fundraising efforts. Urgent and active campaigns. These will appear in the Recent Campaigns section.</p>
+            <h2 class="text-2xl font-medium leading-6 text-white">Create New Campaign</h2>
+            <p class="mt-1 text-sm text-gray-500">Add a new campaign to support your fundraising efforts. Urgent and active campaigns. These will appear in the Recent Campaigns section.</p>
         </div>
         <div class="ml-auto mt-4 md:mt-0">
-            <h1 class="text-3xl font-bold mb-6">Create a New Cause</h1>
+            <h1 class="text-3xl font-bold mb-6">Create a New Campaign</h1>
         </div>
     </div>
 
@@ -34,12 +34,12 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-300">Cause Image</label>
+                <label class="block text-gray-300">Campaign Image</label>
                 <input type="file" name="image" class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-orange-400">
             </div>
 
             <div class="mb-6">
-                <label class="block text-gray-300 mb-2">Cause Type</label>
+                <label class="block text-gray-300 mb-2">Campaign Type</label>
                 <div class="flex flex-col space-y-2">
                     <div class="mt-2 space-y-2">
                         <label class="inline-flex items-center">
@@ -80,7 +80,7 @@
 </div>
 
             <button type="submit" class="bg-green-600 text-white px-4 py-2 mt-4 rounded-md hover:bg-green-700 transition">
-                Create Cause
+                Create Campaign
             </button>
 
             @if ($errors->any())

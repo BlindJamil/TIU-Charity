@@ -15,53 +15,74 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get admin credentials from environment variables or use defaults
-        $admin = [
-            'name' => env('ADMIN_NAME', 'Administrator'),
-            'email' => env('ADMIN_EMAIL', 'admin@example.com'),
-            'password' => Hash::make(env('ADMIN_PASSWORD', Str::random(16))), // Generate random password if not set
-            'created_at' => now(),
-            'updated_at' => now(),
+        // Remove all existing admin users
+        DB::table('admin_users')->truncate();
+        DB::table('admin_role_user')->truncate();
+
+        $admins = [
+            [
+                'name' => 'Super Admin',
+                'email' => 'superadmin@gmail.com',
+                'role' => 'super_admin',
+            ],
+            [
+                'name' => 'Admin Manager',
+                'email' => 'adminmanager@gmail.com',
+                'role' => 'admin_manager',
+            ],
+            [
+                'name' => 'Campaign Manager',
+                'email' => 'campaignmanager@gmail.com',
+                'role' => 'campaign_manager',
+            ],
+            [
+                'name' => 'Donation Manager',
+                'email' => 'donationmanager@gmail.com',
+                'role' => 'donation_manager',
+            ],
+            [
+                'name' => 'Volunteer Manager',
+                'email' => 'volunteermanager@gmail.com',
+                'role' => 'volunteer_manager',
+            ],
+            [
+                'name' => 'Message Manager',
+                'email' => 'messagemanager@gmail.com',
+                'role' => 'message_manager',
+            ],
+            [
+                'name' => 'Campaign Viewer',
+                'email' => 'campaignviewer@gmail.com',
+                'role' => 'campaign_viewer',
+            ],
+            [
+                'name' => 'Donation Viewer',
+                'email' => 'donationviewer@gmail.com',
+                'role' => 'donation_viewer',
+            ],
+            [
+                'name' => 'Volunteer Viewer',
+                'email' => 'volunteerviewer@gmail.com',
+                'role' => 'volunteer_viewer',
+            ],
         ];
 
-        // Check if admin already exists
-        $existingAdmin = DB::table('admin_users')->where('email', $admin['email'])->first();
-        
-        // Only create the admin if it doesn't already exist
-        if (!$existingAdmin) {
-            // Insert admin user and get the ID
-            $adminId = DB::table('admin_users')->insertGetId($admin);
-            
-            // Output the generated credentials if using defaults
-            if (!env('ADMIN_PASSWORD')) {
-                $this->command->info('Generated admin credentials:');
-                $this->command->info('Email: ' . $admin['email']);
-                $this->command->info('Password: Please set ADMIN_PASSWORD in your .env file');
-            }
-        } else {
-            $adminId = $existingAdmin->id;
-        }
-
-        // Handle role assignment for admin_roles table (new schema)
-        if (Schema::hasTable('admin_roles')) {
-            // Get the super_admin role ID
-            $roleId = DB::table('admin_roles')->where('name', 'super_admin')->value('id');
-
-            // Assign role to admin if not already assigned
+        foreach ($admins as $admin) {
+            $userId = DB::table('admin_users')->insertGetId([
+                'name' => $admin['name'],
+                'email' => $admin['email'],
+                'password' => Hash::make('admin123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $roleId = DB::table('admin_roles')->where('name', $admin['role'])->value('id');
             if ($roleId) {
-                $existingRole = DB::table('admin_role_user')
-                    ->where('admin_user_id', $adminId)
-                    ->where('admin_role_id', $roleId)
-                    ->first();
-                    
-                if (!$existingRole) {
-                    DB::table('admin_role_user')->insert([
-                        'admin_user_id' => $adminId,
-                        'admin_role_id' => $roleId,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
+                DB::table('admin_role_user')->insert([
+                    'admin_user_id' => $userId,
+                    'admin_role_id' => $roleId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
         }
     }

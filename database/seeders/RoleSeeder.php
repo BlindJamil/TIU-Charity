@@ -22,13 +22,6 @@ class RoleSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'admin',
-                'display_name' => 'Admin',
-                'description' => 'Limited administrative access',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         // Insert admin_roles if the table exists

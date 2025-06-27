@@ -89,6 +89,10 @@ class Admin extends Authenticatable
 
 public function hasPermission($permission)
 {
+    // Super Admin always has all permissions
+    if ($this->isSuperAdmin()) {
+        return true;
+    }
     return $this->roles()->whereHas('permissions', function ($query) use ($permission) {
         $query->where('name', $permission);
     })->exists();

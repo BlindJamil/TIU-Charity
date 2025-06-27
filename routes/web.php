@@ -73,16 +73,16 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::get('/settings', [AdminController::class, 'settings'])->name('settings')->middleware('permission:manage_admins');
     Route::post('/settings', [AdminController::class, 'updateSettings'])->name('updateSettings')->middleware('permission:manage_admins');
 
-    // Causes Management
-    Route::get('/causes', [CauseController::class, 'index'])->name('causes.index')->middleware('permission:view_causes');
-    Route::get('/causes/create', [CauseController::class, 'create'])->name('causes.create')->middleware('permission:manage_causes');
-    Route::post('/causes', [CauseController::class, 'store'])->name('causes.store')->middleware('permission:manage_causes');
-    Route::get('/causes/{id}/edit', [CauseController::class, 'edit'])->name('causes.edit')->middleware('permission:manage_causes');
-    Route::put('/causes/{id}', [CauseController::class, 'update'])->name('causes.update')->middleware('permission:manage_causes');
-    Route::delete('/causes/{id}', [CauseController::class, 'destroy'])->name('causes.destroy')->middleware('permission:manage_causes');
+    // Campaigns Management
+    Route::get('/causes', [CauseController::class, 'index'])->name('causes.index')->middleware('permission:view_campaigns');
+    Route::get('/causes/create', [CauseController::class, 'create'])->name('causes.create')->middleware('permission:manage_campaigns');
+    Route::post('/causes', [CauseController::class, 'store'])->name('causes.store')->middleware('permission:manage_campaigns');
+    Route::get('/causes/{id}/edit', [CauseController::class, 'edit'])->name('causes.edit')->middleware('permission:manage_campaigns');
+    Route::put('/causes/{id}', [CauseController::class, 'update'])->name('causes.update')->middleware('permission:manage_campaigns');
+    Route::delete('/causes/{id}', [CauseController::class, 'destroy'])->name('causes.destroy')->middleware('permission:manage_campaigns');
 
     // Recent Campaigns Management
-    Route::post('/causes/store-recent-donation', [CauseController::class, 'storeRecentDonation'])->name('causes.store-recent-donation')->middleware('permission:manage_causes');
+    Route::post('/causes/store-recent-donation', [CauseController::class, 'storeRecentDonation'])->name('causes.store-recent-donation')->middleware('permission:manage_campaigns');
 
     // Donation Dashboard (Original route)
     Route::get('/donations', [AdminController::class, 'donations'])->name('donations')->middleware('permission:view_donations');
