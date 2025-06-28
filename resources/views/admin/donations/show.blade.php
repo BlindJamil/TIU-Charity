@@ -3,14 +3,14 @@
 @section('title', 'Donation Details')
 
 @section('content')
-<div class="py-12 bg-gray-900">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="py-6 sm:py-12 bg-gray-900 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-white">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold">Cash Donation Details</h1>
-                    <a href="{{ route('admin.donations.index') }}" class="text-yellow-500 hover:text-yellow-300">
-                        Back to Donations
+            <div class="p-4 sm:p-6 text-white">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
+                    <h1 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-0">Cash Donation Details</h1>
+                    <a href="{{ route('admin.donations.index') }}" class="text-yellow-500 hover:text-yellow-300 text-sm">
+                        ← Back to Donations
                     </a>
                 </div>
 
@@ -29,13 +29,13 @@
                 </div>
                 @endif
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
                     <!-- Main Donation Information Card -->
-                    <div class="lg:col-span-2 bg-gray-700 rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-xl font-bold text-white mb-1">Donation #{{ $donation->id }}</h2>
+                    <div class="xl:col-span-2 bg-gray-700 rounded-lg shadow-md overflow-hidden">
+                        <div class="p-4 sm:p-6">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-6">
+                                <div class="mb-4 sm:mb-0">
+                                    <h2 class="text-lg sm:text-xl font-bold text-white mb-1">Donation #{{ $donation->id }}</h2>
                                     <p class="text-sm text-gray-400">{{ date('F j, Y g:i A', strtotime($donation->created_at)) }}</p>
                                 </div>
                                 <span class="px-3 py-1 rounded-full text-sm font-semibold 
@@ -45,62 +45,77 @@
                                 </span>
                             </div>
 
-                            <div class="mt-6 border-t border-gray-600 pt-6">
-                                <div class="mb-6 flex items-center">
-                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-green-500 bg-opacity-10 text-green-500 mr-4">
+                            <div class="border-t border-gray-600 pt-6">
+                                <div class="mb-6 flex flex-col sm:flex-row sm:items-center">
+                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-green-500 bg-opacity-10 text-green-500 mb-3 sm:mb-0 sm:mr-4">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </span>
                                     <div>
                                         <p class="text-sm text-gray-400">Amount</p>
-                                        <p class="text-2xl font-bold text-white">${{ number_format($donation->amount, 2) }}</p>
+                                        <p class="text-xl sm:text-2xl font-bold text-white">${{ number_format($donation->amount, 2) }}</p>
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     <div class="space-y-4">
                                         <div>
-                                            <h3 class="text-sm text-gray-400">Donor Information</h3>
-                                            <p class="font-medium text-white">{{ $donation->name ?? 'Anonymous' }}</p>
-                                            <p class="text-gray-300">{{ $donation->email ?? 'No email provided' }}</p>
-                                            <p class="text-gray-300">{{ $donation->phone ?? 'No phone provided' }}</p>
+                                            <h3 class="text-sm text-gray-400 mb-2">Donor Information</h3>
+                                            <div class="bg-gray-800 rounded-lg p-3">
+                                                <p class="font-medium text-white">{{ $donation->name ?? 'Anonymous' }}</p>
+                                                <p class="text-gray-300 text-sm">{{ $donation->email ?? 'No email provided' }}</p>
+                                                <p class="text-gray-300 text-sm">{{ $donation->phone ?? 'No phone provided' }}</p>
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <h3 class="text-sm text-gray-400">Donation For</h3>
-                                            <p class="font-medium text-white">{{ $donation->cause_title ?? 'General Donation' }}</p>
+                                            <h3 class="text-sm text-gray-400 mb-2">Donation For</h3>
+                                            <div class="bg-gray-800 rounded-lg p-3">
+                                                <p class="font-medium text-white">{{ $donation->cause_title ?? 'General Donation' }}</p>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="space-y-4">
                                         <div>
-                                            <h3 class="text-sm text-gray-400">Payment Method</h3>
-                                            <p class="font-medium text-white">Cash</p>
-                                            <p class="text-gray-300">Receipt Number: {{ $donation->transaction_id }}</p>
+                                            <h3 class="text-sm text-gray-400 mb-2">Payment Information</h3>
+                                            <div class="bg-gray-800 rounded-lg p-3 space-y-2">
+                                                <div class="flex justify-between">
+                                                    <span class="text-gray-300 text-sm">Method:</span>
+                                                    <span class="font-medium text-white">Cash</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span class="text-gray-300 text-sm">Receipt #:</span>
+                                                    <span class="text-white">{{ $donation->transaction_id }}</span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <h3 class="text-sm text-gray-400">Receipt Generated</h3>
-                                            <p class="text-gray-300">{{ date('F j, Y', strtotime($donation->created_at)) }}</p>
+                                            <h3 class="text-sm text-gray-400 mb-2">Timeline</h3>
+                                            <div class="bg-gray-800 rounded-lg p-3 space-y-2">
+                                                <div class="flex justify-between">
+                                                    <span class="text-gray-300 text-sm">Generated:</span>
+                                                    <span class="text-white text-sm">{{ date('M d, Y', strtotime($donation->created_at)) }}</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span class="text-gray-300 text-sm">Expires:</span>
+                                                    <span class="text-white text-sm">{{ date('M d, Y', strtotime($donation->receipt_expires_at)) }}</span>
+                                                </div>
+                                                @if(now() > $donation->receipt_expires_at && $donation->status == 'pending')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-900 text-red-200">
+                                                        Expired
+                                                    </span>
+                                                @endif
+                                                @if($donation->status == 'completed' && $donation->completed_at)
+                                                <div class="flex justify-between">
+                                                    <span class="text-gray-300 text-sm">Completed:</span>
+                                                    <span class="text-white text-sm">{{ date('M d, Y', strtotime($donation->completed_at)) }}</span>
+                                                </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                        
-                                        <div>
-                                            <h3 class="text-sm text-gray-400">Receipt Expires</h3>
-                                            <p class="text-gray-300">{{ date('F j, Y', strtotime($donation->receipt_expires_at)) }}</p>
-                                            @if(now() > $donation->receipt_expires_at && $donation->status == 'pending')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-900 text-red-200 mt-1">
-                                                    Expired
-                                                </span>
-                                            @endif
-                                        </div>
-                                        
-                                        @if($donation->status == 'completed' && $donation->completed_at)
-                                        <div>
-                                            <h3 class="text-sm text-gray-400">Payment Received</h3>
-                                            <p class="text-gray-300">{{ date('F j, Y', strtotime($donation->completed_at)) }}</p>
-                                        </div>
-                                        @endif
                                     </div>
                                 </div>
 
@@ -118,7 +133,7 @@
                     <div class="space-y-6">
                         <!-- Actions Card -->
                         <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden">
-                            <div class="p-6">
+                            <div class="p-4 sm:p-6">
                                 <h2 class="text-lg font-semibold text-white mb-4">
                                     @if(auth('admin')->user()->hasPermission('manage_donations'))
                                         Update Cash Payment
@@ -133,7 +148,7 @@
                                     @method('PUT')
                                     
                                     <div class="mb-4">
-                                        <label for="status" class="block text-sm font-medium text-gray-300 mb-1">Payment Status</label>
+                                        <label for="status" class="block text-sm font-medium text-gray-300 mb-2">Payment Status</label>
                                         <select name="status" id="status" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
                                             <option value="pending" {{ $donation->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                             <option value="completed" {{ $donation->status == 'completed' ? 'selected' : '' }}>Completed</option>
@@ -142,7 +157,7 @@
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <label for="admin_notes" class="block text-sm font-medium text-gray-300 mb-1">Payment Notes</label>
+                                        <label for="admin_notes" class="block text-sm font-medium text-gray-300 mb-2">Payment Notes</label>
                                         <textarea name="admin_notes" id="admin_notes" rows="3" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">{{ $donation->admin_notes ?? '' }}</textarea>
                                     </div>
                                     
@@ -154,7 +169,7 @@
                                     <!-- View-only information for users without manage permission -->
                                     <div class="space-y-4">
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-300 mb-1">Payment Status</label>
+                                            <label class="block text-sm font-medium text-gray-300 mb-2">Payment Status</label>
                                             <div class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600">
                                                 {{ ucfirst($donation->status) }}
                                             </div>
@@ -162,7 +177,7 @@
                                         
                                         @if($donation->admin_notes)
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-300 mb-1">Payment Notes</label>
+                                            <label class="block text-sm font-medium text-gray-300 mb-2">Payment Notes</label>
                                             <div class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600">
                                                 {{ $donation->admin_notes }}
                                             </div>
@@ -171,8 +186,8 @@
                                     </div>
                                 @endif
                                 
-                                <div class="mt-6 pt-6 border-t border-gray-600">
-                                    <button onclick="printReceipt()" class="w-full flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-500">
+                                <div class="mt-6 pt-6 border-t border-gray-600 space-y-3">
+                                    <button onclick="printReceipt()" class="w-full flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-500 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                         </svg>
@@ -180,7 +195,7 @@
                                     </button>
                                     
                                     @if($donation->email && auth('admin')->user()->hasPermission('manage_donations'))
-                                    <button onclick="sendThankYou('{{ $donation->id }}')" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-green-500 hover:bg-green-600 mt-3">
+                                    <button onclick="sendThankYou('{{ $donation->id }}')" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-green-500 hover:bg-green-600 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
@@ -193,13 +208,13 @@
                         
                         <!-- Cash Payment Instructions -->
                         <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden">
-                            <div class="p-6">
+                            <div class="p-4 sm:p-6">
                                 <h2 class="text-lg font-semibold text-white mb-4">Payment Processing</h2>
                                 
                                 <div class="space-y-4">
                                     <p class="text-gray-300 text-sm">Steps for processing cash donations:</p>
                                     
-                                    <ol class="list-decimal pl-5 text-gray-300 space-y-2">
+                                    <ol class="list-decimal pl-5 text-gray-300 space-y-2 text-sm">
                                         <li>Verify the donor's receipt number</li>
                                         <li>Collect the cash amount</li>
                                         <li>Update the payment status to "Completed"</li>
@@ -207,9 +222,9 @@
                                         <li>Record the payment in the financial system</li>
                                     </ol>
                                     
-                                    <div class="mt-4 p-3 bg-blue-900 bg-opacity-40 rounded-lg">
+                                    <div class="p-3 bg-blue-900 bg-opacity-40 rounded-lg">
                                         <p class="text-blue-200 text-sm flex items-start">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             Always verify the donor's identity before marking a cash donation as completed.

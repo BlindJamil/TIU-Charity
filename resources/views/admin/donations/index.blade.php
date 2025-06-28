@@ -3,16 +3,16 @@
 @section('title', 'Manage Donations')
 
 @section('content')
-<div class="py-12 bg-gray-900">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="py-6 sm:py-12 bg-gray-900 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-white">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold">Manage Cash Donations</h1>
-                    <div class="flex space-x-2">
+            <div class="p-4 sm:p-6 text-white">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
+                    <h1 class="text-xl sm:text-2xl font-bold">Manage Cash Donations</h1>
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                         @if(auth('admin')->user()->hasPermission('manage_donations'))
-                        <a href="{{ route('admin.donations.export') }}" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition">
-                            <span class="flex items-center">
+                        <a href="{{ route('admin.donations.export') }}" class="w-full sm:w-auto text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition">
+                            <span class="flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
@@ -20,8 +20,8 @@
                             </span>
                         </a>
                         @else
-                        <button disabled class="bg-gray-700 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to export data">
-                            <span class="flex items-center">
+                        <button disabled class="w-full sm:w-auto bg-gray-700 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed opacity-50" title="You don't have permission to export data">
+                            <span class="flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
@@ -29,8 +29,8 @@
                             </span>
                         </button>
                         @endif
-                        <a href="#" id="toggleFilters" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition">
-                            <span class="flex items-center">
+                        <a href="#" id="toggleFilters" class="w-full sm:w-auto text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition">
+                            <span class="flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                                 </svg>
@@ -58,7 +58,7 @@
 
                 <!-- Filters Panel (hidden by default) -->
                 <div id="filtersPanel" class="bg-gray-700 rounded-lg p-4 mb-6 {{ request()->anyFilled(['date_range', 'status', 'cause_id', 'min_amount', 'max_amount', 'payment_method']) ? '' : 'hidden' }}">
-                    <form action="{{ route('admin.donations.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <form action="{{ route('admin.donations.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">Date Range</label>
                             <select name="date_range" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
@@ -92,14 +92,6 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1">Amount</label>
-                            <div class="flex space-x-2">
-                                <input type="number" name="min_amount" placeholder="Min" value="{{ request('min_amount') }}" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
-                                <input type="number" name="max_amount" placeholder="Max" value="{{ request('max_amount') }}" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
-                            </div>
-                        </div>
-
-                        <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">Payment Method</label>
                             <select name="payment_method" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
                                 <option value="">All Methods</option>
@@ -110,15 +102,23 @@
                             </select>
                         </div>
 
-                        <div class="md:col-span-4 flex justify-end space-x-3">
-                            <a href="{{ route('admin.donations.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500">Clear</a>
-                            <button type="submit" class="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600">Apply Filters</button>
+                        <div class="sm:col-span-2">
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Amount Range</label>
+                            <div class="flex space-x-2">
+                                <input type="number" name="min_amount" placeholder="Min" value="{{ request('min_amount') }}" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
+                                <input type="number" name="max_amount" placeholder="Max" value="{{ request('max_amount') }}" class="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-yellow-500">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-2 lg:col-span-4 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+                            <a href="{{ route('admin.donations.index') }}" class="w-full sm:w-auto text-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500">Clear</a>
+                            <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600">Apply Filters</button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Donation Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
                     <div class="bg-gray-700 rounded-lg p-4 shadow-md border border-gray-600">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-blue-500 bg-opacity-20 mr-4">
@@ -128,7 +128,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-400">Total Donations</p>
-                                <p class="text-xl font-bold text-white">{{ $totalDonations }}</p>
+                                <p class="text-lg sm:text-xl font-bold text-white">{{ $totalDonations }}</p>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-400">Total Amount</p>
-                                <p class="text-xl font-bold text-white">${{ number_format($totalAmount, 2) }}</p>
+                                <p class="text-lg sm:text-xl font-bold text-white">${{ number_format($totalAmount, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-400">Average Donation</p>
-                                <p class="text-xl font-bold text-white">${{ number_format($averageDonation, 2) }}</p>
+                                <p class="text-lg sm:text-xl font-bold text-white">${{ number_format($averageDonation, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -170,133 +170,196 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-400">Latest Donation</p>
-                                {{ $latestDonation ? \Carbon\Carbon::parse($latestDonation->created_at)->diffForHumans() : 'No donations yet' }}
+                                <p class="text-xs sm:text-sm text-white">
+                                    {{ $latestDonation ? \Carbon\Carbon::parse($latestDonation->created_at)->diffForHumans() : 'No donations yet' }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-700 rounded-lg shadow overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-600">
-                        <thead class="bg-gray-800">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Donor</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Cause</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Receipt #</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-gray-700 divide-y divide-gray-600">
-                            @forelse($donations as $donation)
-                                <tr class="hover:bg-gray-650 transition">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-white">{{ $donation->name ?? 'Anonymous' }}</div>
-                                        <div class="text-sm text-gray-400">{{ $donation->email ?? 'No email provided' }}</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-white">
-                                            {{ $donation->cause_title ?? 'Unknown Cause' }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-green-400">${{ number_format($donation->amount, 2) }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-white">{{ $donation->transaction_id }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            {{ $donation->status == 'completed' ? 'bg-green-900 text-green-200' : 
-                                              ($donation->status == 'pending' ? 'bg-yellow-900 text-yellow-200' : 'bg-red-900 text-red-200') }}">
-                                            {{ ucfirst($donation->status) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-white">{{ date('M d, Y', strtotime($donation->created_at)) }}</div>
-                                        <div class="text-sm text-gray-400">{{ date('h:i A', strtotime($donation->created_at)) }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex space-x-2">
-                                            <a href="{{ route('admin.donations.show', $donation->id) }}" class="text-blue-400 hover:text-blue-300">
-                                                <span class="sr-only">View</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </a>
-                                            
-                                            @if($donation->status == 'pending')
-                                                @if(auth('admin')->user()->hasPermission('manage_donations'))
-                                                <button type="button" 
-                                                       class="text-green-400 hover:text-green-300 status-btn" 
-                                                       data-donation-id="{{ $donation->id }}" 
-                                                       data-status="completed"
-                                                       title="Mark as completed">
-                                                    <span class="sr-only">Complete</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                </button>
-                                                
-                                                <button type="button" 
-                                                       class="text-red-400 hover:text-red-300 status-btn" 
-                                                       data-donation-id="{{ $donation->id }}" 
-                                                       data-status="cancelled"
-                                                       title="Mark as cancelled">
-                                                    <span class="sr-only">Cancel</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                </button>
-                                                @else
-                                                <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to manage donations">
-                                                    <span class="sr-only">Complete</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                </button>
-                                                
-                                                <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to manage donations">
-                                                    <span class="sr-only">Cancel</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                </button>
-                                                @endif
-                                            @endif
-                                            
-                                            @if($donation->email)
-                                                @if(auth('admin')->user()->hasPermission('manage_donations'))
-                                                <button type="button" onclick="sendThankYou('{{ $donation->id }}')" class="text-yellow-400 hover:text-yellow-300" title="Send thank you email">
-                                                    <span class="sr-only">Thank You Email</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                                @else
-                                                <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to send emails">
-                                                    <span class="sr-only">Thank You Email</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
+                <!-- Mobile Cards View -->
+                <div class="block lg:hidden space-y-4">
+                    @forelse($donations as $donation)
+                        <div class="bg-gray-700 rounded-lg shadow p-4 border border-gray-600">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="font-medium text-white">{{ $donation->name ?? 'Anonymous' }}</h3>
+                                    <p class="text-sm text-gray-400">{{ $donation->email ?? 'No email provided' }}</p>
+                                </div>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ $donation->status == 'completed' ? 'bg-green-900 text-green-200' : 
+                                      ($donation->status == 'pending' ? 'bg-yellow-900 text-yellow-200' : 'bg-red-900 text-red-200') }}">
+                                    {{ ucfirst($donation->status) }}
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-2 mb-4">
+                                <p class="text-sm"><span class="text-gray-400">Amount:</span> <span class="text-green-400 font-semibold">${{ number_format($donation->amount, 2) }}</span></p>
+                                <p class="text-sm"><span class="text-gray-400">Cause:</span> <span class="text-white">{{ $donation->cause_title ?? 'Unknown Cause' }}</span></p>
+                                <p class="text-sm"><span class="text-gray-400">Receipt:</span> <span class="text-white">{{ $donation->transaction_id }}</span></p>
+                                <p class="text-sm"><span class="text-gray-400">Date:</span> <span class="text-white">{{ date('M d, Y h:i A', strtotime($donation->created_at)) }}</span></p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <a href="{{ route('admin.donations.show', $donation->id) }}" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                                    View
+                                </a>
+                                
+                                @if($donation->status == 'pending' && auth('admin')->user()->hasPermission('manage_donations'))
+                                    <button type="button" 
+                                           class="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm status-btn" 
+                                           data-donation-id="{{ $donation->id }}" 
+                                           data-status="completed">
+                                        Complete
+                                    </button>
+                                    
+                                    <button type="button" 
+                                           class="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm status-btn" 
+                                           data-donation-id="{{ $donation->id }}" 
+                                           data-status="cancelled">
+                                        Cancel
+                                    </button>
+                                @endif
+                                
+                                @if($donation->email && auth('admin')->user()->hasPermission('manage_donations'))
+                                    <button type="button" onclick="sendThankYou('{{ $donation->id }}')" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm">
+                                        Email
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-8">
+                            <p class="text-gray-400">No donations found.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Desktop Table View -->
+                <div class="hidden lg:block bg-gray-700 rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-600">
+                            <thead class="bg-gray-800">
                                 <tr>
-                                    <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-400">
-                                        No donations found.
-                                    </td>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Donor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Cause</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Receipt #</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
                                 </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="bg-gray-700 divide-y divide-gray-600">
+                                @forelse($donations as $donation)
+                                    <tr class="hover:bg-gray-650 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-white">{{ $donation->name ?? 'Anonymous' }}</div>
+                                            <div class="text-sm text-gray-400">{{ $donation->email ?? 'No email provided' }}</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-white">
+                                                {{ $donation->cause_title ?? 'Unknown Cause' }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-semibold text-green-400">${{ number_format($donation->amount, 2) }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-white">{{ $donation->transaction_id }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                                {{ $donation->status == 'completed' ? 'bg-green-900 text-green-200' : 
+                                                  ($donation->status == 'pending' ? 'bg-yellow-900 text-yellow-200' : 'bg-red-900 text-red-200') }}">
+                                                {{ ucfirst($donation->status) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-white">{{ date('M d, Y', strtotime($donation->created_at)) }}</div>
+                                            <div class="text-sm text-gray-400">{{ date('h:i A', strtotime($donation->created_at)) }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <div class="flex space-x-2">
+                                                <a href="{{ route('admin.donations.show', $donation->id) }}" class="text-blue-400 hover:text-blue-300">
+                                                    <span class="sr-only">View</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </a>
+                                                
+                                                @if($donation->status == 'pending')
+                                                    @if(auth('admin')->user()->hasPermission('manage_donations'))
+                                                    <button type="button" 
+                                                           class="text-green-400 hover:text-green-300 status-btn" 
+                                                           data-donation-id="{{ $donation->id }}" 
+                                                           data-status="completed"
+                                                           title="Mark as completed">
+                                                        <span class="sr-only">Complete</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </button>
+                                                    
+                                                    <button type="button" 
+                                                           class="text-red-400 hover:text-red-300 status-btn" 
+                                                           data-donation-id="{{ $donation->id }}" 
+                                                           data-status="cancelled"
+                                                           title="Mark as cancelled">
+                                                        <span class="sr-only">Cancel</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                    @else
+                                                    <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to manage donations">
+                                                        <span class="sr-only">Complete</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </button>
+                                                    
+                                                    <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to manage donations">
+                                                        <span class="sr-only">Cancel</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                    @endif
+                                                @endif
+                                                
+                                                @if($donation->email)
+                                                    @if(auth('admin')->user()->hasPermission('manage_donations'))
+                                                    <button type="button" onclick="sendThankYou('{{ $donation->id }}')" class="text-yellow-400 hover:text-yellow-300" title="Send thank you email">
+                                                        <span class="sr-only">Thank You Email</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </button>
+                                                    @else
+                                                    <button disabled class="text-gray-500 cursor-not-allowed opacity-50" title="You don't have permission to send emails">
+                                                        <span class="sr-only">Thank You Email</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </button>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-400">
+                                            No donations found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Pagination -->
@@ -389,24 +452,24 @@
             document.body.appendChild(successToast);
             
             // Update the UI to reflect the change
-            const row = button.closest('tr');
+            const row = button.closest('tr') || button.closest('.bg-gray-700');
             if (row) {
-                // Update the status cell (5th column - 0-indexed would be 4)
-                const statusCell = row.querySelector('td:nth-child(5) span');
-                if (statusCell) {
+                // Update the status cell/element
+                const statusElement = row.querySelector('span.rounded-full, .status-indicator');
+                if (statusElement) {
                     // Update text
-                    statusCell.textContent = ucfirst(newStatus);
+                    statusElement.textContent = ucfirst(newStatus);
                     
                     // Remove all existing status classes
-                    statusCell.classList.remove('bg-green-900', 'text-green-200', 'bg-yellow-900', 'text-yellow-200', 'bg-red-900', 'text-red-200');
+                    statusElement.classList.remove('bg-green-900', 'text-green-200', 'bg-yellow-900', 'text-yellow-200', 'bg-red-900', 'text-red-200');
                     
                     // Add appropriate classes based on new status
                     if (newStatus === 'completed') {
-                        statusCell.classList.add('bg-green-900', 'text-green-200');
+                        statusElement.classList.add('bg-green-900', 'text-green-200');
                     } else if (newStatus === 'pending') {
-                        statusCell.classList.add('bg-yellow-900', 'text-yellow-200');
+                        statusElement.classList.add('bg-yellow-900', 'text-yellow-200');
                     } else {
-                        statusCell.classList.add('bg-red-900', 'text-red-200');
+                        statusElement.classList.add('bg-red-900', 'text-red-200');
                     }
                 }
                 
