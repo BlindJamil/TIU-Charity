@@ -88,10 +88,21 @@ class VolunteeringController extends Controller
     /**
      * Display a listing of projects (Admin)
      */
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        $projects = Project::with('volunteers')->latest()->get();
-        return view('admin.projects.index', compact('projects'));
+        $query = Project::with('volunteers')->latest();
+        $department = $request->input('department');
+        if ($department) {
+            $query->where('department', 'ILIKE', "%$department%");
+        }
+        $projects = $query->get();
+        $departments = Project::distinct()
+            ->whereNotNull('department')
+            ->where('department', '!=', '')
+            ->pluck('department')
+            ->sort()
+            ->values();
+        return view('admin.projects.index', compact('projects', 'departments', 'department'));
     }
     
     /**
@@ -119,6 +130,7 @@ class VolunteeringController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'location' => 'required|string|max:255',
             'volunteers_needed' => 'required|integer|min:1',
+            'department' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
@@ -168,6 +180,7 @@ class VolunteeringController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'location' => 'required|string|max:255',
             'volunteers_needed' => 'required|integer|min:1',
+            'department' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         

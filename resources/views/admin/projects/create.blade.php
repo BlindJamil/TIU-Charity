@@ -70,6 +70,14 @@
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div>
+                                <label for="department" class="block text-sm font-medium text-gray-300 mb-2">Department</label>
+                                <input type="text" name="department" id="department" value="{{ old('department') }}"
+                                       class="w-full border border-gray-600 rounded-md shadow-sm py-2 px-3 bg-gray-700 text-white focus:outline-none focus:ring-yellow-500 focus:border-yellow-500">
+                                @error('department')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
                             
                             <div class="lg:col-span-2">
                                 <label for="image" class="block text-sm font-medium text-gray-300 mb-2">Project Image</label>

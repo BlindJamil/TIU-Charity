@@ -18,6 +18,141 @@
             @endif
         </div>
 
+        <!-- Professional Filter Section -->
+        <div class="bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-6">
+            <form method="GET" action="{{ route('admin.causes.index') }}" id="filterForm">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-1">
+                        <label for="search" class="block text-sm font-medium text-gray-300 mb-2">Search</label>
+                        <div class="relative">
+                            <input type="text" 
+                                   name="search" 
+                                   id="search" 
+                                   value="{{ request('search') }}" 
+                                   placeholder="Search by title or description..."
+                                   class="w-full pl-10 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Department Filter -->
+                    <div class="lg:w-64">
+                        <label for="department" class="block text-sm font-medium text-gray-300 mb-2">Department</label>
+                        <select name="department" 
+                                id="department" 
+                                class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            <option value="">All Departments</option>
+                            @foreach($departments as $dept)
+                                <option value="{{ $dept }}" {{ request('department') == $dept ? 'selected' : '' }}>
+                                    {{ $dept }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <div class="lg:w-48">
+                        <label for="type" class="block text-sm font-medium text-gray-300 mb-2">Campaign Type</label>
+                        <select name="type" 
+                                id="type" 
+                                class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            <option value="">All Types</option>
+                            <option value="general" {{ request('type') == 'general' ? 'selected' : '' }}>General</option>
+                            <option value="recent" {{ request('type') == 'recent' ? 'selected' : '' }}>Recent</option>
+                            <option value="urgent" {{ request('type') == 'urgent' ? 'selected' : '' }}>Urgent</option>
+                        </select>
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="lg:w-48">
+                        <label for="status" class="block text-sm font-medium text-gray-300 mb-2">Status</label>
+                        <select name="status" 
+                                id="status" 
+                                class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            <option value="">All Status</option>
+                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter Actions -->
+                    <div class="flex items-end gap-2">
+                        <button type="submit" 
+                                class="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600 transition font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                            Filter
+                        </button>
+                        @if(request()->hasAny(['search', 'department', 'type', 'status']))
+                            <a href="{{ route('admin.causes.index') }}" 
+                               class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">
+                                Clear
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Active Filters Display -->
+                @if(request()->hasAny(['search', 'department', 'type', 'status']))
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-sm text-gray-400">Active filters:</span>
+                        @if(request('search'))
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-yellow-400">
+                                Search: {{ request('search') }}
+                                <a href="{{ route('admin.causes.index', array_diff_key(request()->all(), ['search' => ''])) }}" class="ml-2 text-gray-400 hover:text-white">
+                                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+                        @if(request('department'))
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-yellow-400">
+                                Department: {{ request('department') }}
+                                <a href="{{ route('admin.causes.index', array_diff_key(request()->all(), ['department' => ''])) }}" class="ml-2 text-gray-400 hover:text-white">
+                                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+                        @if(request('type'))
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-yellow-400">
+                                Type: {{ ucfirst(request('type')) }}
+                                <a href="{{ route('admin.causes.index', array_diff_key(request()->all(), ['type' => ''])) }}" class="ml-2 text-gray-400 hover:text-white">
+                                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+                        @if(request('status'))
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-yellow-400">
+                                Status: {{ ucfirst(request('status')) }}
+                                <a href="{{ route('admin.causes.index', array_diff_key(request()->all(), ['status' => ''])) }}" class="ml-2 text-gray-400 hover:text-white">
+                                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+                            </span>
+                        @endif
+                    </div>
+                @endif
+            </form>
+        </div>
+
+        <!-- Results count -->
+        <div class="mb-4 text-sm text-gray-400">
+            Showing {{ $causes->count() }} {{ Str::plural('campaign', $causes->count()) }}
+        </div>
+
         <div class="bg-gray-800 shadow-md rounded-lg overflow-hidden">
             <!-- Mobile Cards View -->
             <div class="block lg:hidden">
@@ -93,6 +228,7 @@
                             <tr class="border-b border-gray-600">
                                 <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Image</th>
                                 <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Title</th>
+                                <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Department</th>
                                 <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Goal Amount</th>
                                 <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Raised</th>
                                 <th class="p-3 text-sm font-medium text-gray-300 uppercase tracking-wider">Status</th>
@@ -106,6 +242,7 @@
                                         <img src="{{ asset('storage/' . $cause->image) }}" alt="Campaign Image" class="w-16 h-16 rounded-md object-cover">
                                     </td>
                                     <td class="p-3 text-white">{{ $cause->title }}</td>
+                                    <td class="p-3 text-white">{{ $cause->department }}</td>
                                     <td class="p-3 text-orange-400 font-semibold">${{ number_format($cause->goal, 2) }}</td>
                                     <td class="p-3 text-yellow-400 font-semibold">${{ number_format($cause->raised, 2) }}</td>
                                     <td class="p-3">

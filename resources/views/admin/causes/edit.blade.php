@@ -69,6 +69,15 @@
                     </div>
 
                     <div>
+                        <label class="block text-gray-300 text-sm font-medium mb-2">Department</label>
+                        <input type="text" name="department" value="{{ old('department', $cause->department) }}"
+                               class="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400">
+                        @error('department')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label class="block text-gray-300 text-sm font-medium mb-3">Campaign Type</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <label class="flex items-start p-4 bg-gray-700 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-650 transition-colors">

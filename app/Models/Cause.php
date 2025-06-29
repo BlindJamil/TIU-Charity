@@ -20,6 +20,7 @@ class Cause extends Model
         'goal',
         'raised',
         'image',
+        'department',
         'receipt_expiry_days',
         'is_recent',
         'is_urgent'

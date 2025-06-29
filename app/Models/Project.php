@@ -17,6 +17,7 @@ class Project extends Model
         'location',
         'volunteers_needed',
         'image',
+        'department',
     ];
     
     protected $casts = [
