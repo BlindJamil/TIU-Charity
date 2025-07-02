@@ -10,7 +10,21 @@ class User extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'password', 'is_admin'];
+    protected $fillable = [
+        'name', 
+        'email', 
+        'password', 
+        'is_admin',
+        'phone',
+        'city',
+        'student_id',
+        'department',
+        'graduation_year',
+        'address',
+        'emergency_contact',
+        'emergency_phone',
+        'profile_image'
+    ];
 
     protected static function boot()
     {

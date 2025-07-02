@@ -30,5 +30,31 @@ class RoleSeeder extends Seeder
                 DB::table('admin_roles')->insertOrIgnore($role);
             }
         }
+
+        // Add new admin roles
+        \App\Models\Role::firstOrCreate([
+            'name' => 'achievement_manager',
+        ], [
+            'display_name' => 'Achievement Manager',
+            'description' => 'Can fully manage achievements (CRUD).',
+        ]);
+        \App\Models\Role::firstOrCreate([
+            'name' => 'achievement_viewer',
+        ], [
+            'display_name' => 'Achievement Viewer',
+            'description' => 'Can view achievements but not edit or delete.',
+        ]);
+        \App\Models\Role::firstOrCreate([
+            'name' => 'users_manager',
+        ], [
+            'display_name' => 'Users Manager',
+            'description' => 'Can fully manage users (CRUD).',
+        ]);
+        \App\Models\Role::firstOrCreate([
+            'name' => 'users_viewer',
+        ], [
+            'display_name' => 'Users Viewer',
+            'description' => 'Can view users but not edit or delete.',
+        ]);
     }
 } 

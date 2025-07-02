@@ -142,8 +142,8 @@
                         </svg>
                         Print Receipt
                     </button>
-                    <a href="{{ route('cause') }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 px-4 rounded-lg transition-colors">
-                        See Other Causes
+                    <a href="{{ route('cause') }}" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg transition duration-300">
+                        See Other Campaigns
                     </a>
                     <a href="{{ route('home') }}" class="w-full bg-gray-700 hover:bg-gray-600 text-white text-center font-bold py-3 px-4 rounded-lg transition-colors">
                         Return to Homepage

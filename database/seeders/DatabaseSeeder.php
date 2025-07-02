@@ -27,5 +27,8 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class, // This will create the admin user and assign the role
             PermissionRoleSeeder::class,
         ]);
+
+        // Other seeders
+        // $this->call(AchievementSeeder::class);
     }
 }

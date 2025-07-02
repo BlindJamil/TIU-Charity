@@ -36,6 +36,16 @@ class ProfileController extends Controller
             $notifications = collect();
         }
         
+        // Calculate profile completion
+        $fields = ['name', 'email', 'phone', 'city', 'student_id', 'department', 'address'];
+        $filled = 0;
+        foreach ($fields as $field) {
+            if (!empty($user->$field)) {
+                $filled++;
+            }
+        }
+        $profileCompletion = intval(($filled / count($fields)) * 100);
+        
         return view('profile.dashboard', [
             'user' => $user,
             'totalDonated' => $totalDonated,
@@ -44,7 +54,8 @@ class ProfileController extends Controller
             'achievements' => $achievements,
             'upcomingProjects' => $upcomingProjects,
             'notifications' => $notifications,
-            'activeTab' => 'dashboard'
+            'activeTab' => 'dashboard',
+            'profileCompletion' => $profileCompletion,
         ]);
     }
 
@@ -330,10 +341,22 @@ class ProfileController extends Controller
             return DB::table('donations')
                 ->join('causes', 'donations.cause_id', '=', 'causes.id')
                 ->where('donations.user_id', $user->id)
+                ->whereNotNull('donations.cause_id')
                 ->distinct('causes.id')
                 ->count('causes.id');
         } catch (\Exception $e) {
-            return 0;
+            // Fallback method if distinct doesn't work
+            try {
+                return DB::table('donations')
+                    ->join('causes', 'donations.cause_id', '=', 'causes.id')
+                    ->where('donations.user_id', $user->id)
+                    ->whereNotNull('donations.cause_id')
+                    ->select('causes.id')
+                    ->distinct()
+                    ->count();
+            } catch (\Exception $e2) {
+                return 0;
+            }
         }
     }
 

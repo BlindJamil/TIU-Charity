@@ -185,4 +185,120 @@ class AdminManagementController extends Controller
              return back()->with('error', 'Failed to delete admin user. Please check logs.');
         }
     }
+
+    /**
+     * Display a listing of all users (not admins) with search.
+     */
+    public function indexUsers(Request $request)
+    {
+        if (!auth('admin')->user()->isSuperAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $query = \App\Models\User::query();
+        $search = $request->input('search');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'ILIKE', "%$search%")
+                  ->orWhere('email', 'ILIKE', "%$search%")
+                  ->orWhere('phone', 'ILIKE', "%$search%")
+                  ->orWhere('city', 'ILIKE', "%$search%")
+                  ->orWhere('student_id', 'ILIKE', "%$search%")
+                  ->orWhere('department', 'ILIKE', "%$search%")
+                ;
+            });
+        }
+        $users = $query->orderByDesc('created_at')->paginate(15);
+
+        // Add statistics and filter variables
+        $totalUsers = \App\Models\User::count();
+        $newUsersThisMonth = \App\Models\User::whereMonth('created_at', now()->month)
+                                ->whereYear('created_at', now()->year)
+                                ->count();
+        $usersWithDonations = \App\Models\User::has('donations')->count();
+        $usersWithVolunteerWork = \App\Models\User::has('volunteers')->count();
+        $departments = \App\Models\User::whereNotNull('department')->distinct()->pluck('department')->filter()->sort();
+        $cities = \App\Models\User::whereNotNull('city')->distinct()->pluck('city')->filter()->sort();
+        $graduationYears = \App\Models\User::whereNotNull('graduation_year')->distinct()->pluck('graduation_year')->filter()->sort();
+
+        return view('admin.users.index', compact(
+            'users',
+            'search',
+            'departments',
+            'cities',
+            'graduationYears',
+            'totalUsers',
+            'newUsersThisMonth',
+            'usersWithDonations',
+            'usersWithVolunteerWork'
+        ));
+    }
+
+    /**
+     * Show details for a single user (profile, donations, volunteer activities).
+     */
+    public function showUser($id)
+    {
+        if (!auth('admin')->user()->isSuperAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $user = \App\Models\User::findOrFail($id);
+        $donations = $user->donations()->latest()->get();
+        $volunteers = $user->volunteers()->with('project')->latest()->get();
+
+        // Calculate stats
+        $totalDonated = $donations->sum('amount');
+        $completedVolunteerProjects = $volunteers->where('status', 'approved')->count();
+        $totalVolunteerHours = $completedVolunteerProjects * 8; // Assuming 8 hours per project
+
+        return view('admin.users.show', compact(
+            'user',
+            'donations',
+            'volunteers',
+            'totalDonated',
+            'completedVolunteerProjects',
+            'totalVolunteerHours'
+        ));
+    }
+
+    /**
+     * Export all users as a CSV file (admin only).
+     */
+    public function exportUsers()
+    {
+        if (!auth('admin')->user()->isSuperAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $fileName = 'users_export_' . now()->format('Ymd_His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        $columns = ['ID', 'Name', 'Email', 'Phone', 'City', 'Department', 'Graduation Year', 'Created At'];
+
+        $callback = function() use ($columns) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, $columns);
+
+            \App\Models\User::chunk(200, function($users) use ($handle) {
+                foreach ($users as $user) {
+                    fputcsv($handle, [
+                        $user->id,
+                        $user->name,
+                        $user->email,
+                        $user->phone,
+                        $user->city,
+                        $user->department,
+                        $user->graduation_year,
+                        $user->created_at,
+                    ]);
+                }
+            });
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

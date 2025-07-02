@@ -27,28 +27,33 @@ class AuthenticatedSessionController extends Controller
     
     public function store(Request $request): RedirectResponse
     {
-        
-    $request->validate([
-        'email' => ['required', 'string', 'email'],
-        'password' => ['required', 'string'],
-    ]);
+        $request->validate([
+            'login' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
 
-    if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-        $request->session()->regenerate();
+        $login = $request->input('login');
+        $password = $request->input('password');
+        $remember = $request->boolean('remember');
 
-        // ✅ Redirect based on role
-        if (DB::table('admins')->where('user_id', Auth::id())->exists()) {
-            return redirect('/admin/dashboard');
+        // Determine if login is email or phone
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
+        if (Auth::attempt([$fieldType => $login, 'password' => $password], $remember)) {
+            $request->session()->regenerate();
+
+            // ✅ Redirect based on role
+            if (DB::table('admins')->where('user_id', Auth::id())->exists()) {
+                return redirect('/admin/dashboard');
+            }
+
+            return redirect()->route('home'); // Normal users go to home
         }
 
-        return redirect()->route('home'); // Normal users go to home
+        return back()->withErrors([
+            'login' => 'The provided credentials do not match our records.',
+        ]);
     }
-
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ]);
-}
 
 
 

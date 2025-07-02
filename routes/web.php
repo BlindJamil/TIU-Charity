@@ -13,6 +13,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserDonationController;
 use App\Http\Controllers\AdminDonationController;
 use App\Http\Controllers\AdminManagementController; // <-- Added Controller
+use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\Admin\AchievementController as AdminAchievementController; // <-- Added Admin Achievement Controller
 use App\Http\Middleware\IsAdmin; // Original, keep if needed elsewhere
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
@@ -29,6 +31,9 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/faq', function () { return view('FAQ'); })->name('FAQ');
 Route::get('/privacy-policy', function () { return view('privacy-policy'); })->name('privacy.policy');
+
+// Public Achievements page (what visitors see)
+Route::get('/achievements', [AchievementController::class, 'index'])->name('achievements');
 
 // Cause Routes
 Route::get('/cause', [CauseController::class, 'publicIndex'])->name('cause');
@@ -93,6 +98,7 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::get('/donation-details/{id}', [AdminDonationController::class, 'show'])->name('donations.show')->middleware('permission:view_donations');
     Route::put('/donation-details/{id}', [AdminDonationController::class, 'update'])->name('donations.update')->middleware('permission:manage_donations');
     Route::post('/donation-details/thank-you/{id}', [AdminDonationController::class, 'sendThankYou'])->name('donations.thank-you')->middleware('permission:manage_donations');
+    Route::post('/donation-details/apology/{id}', [AdminDonationController::class, 'sendApology'])->name('donations.apology')->middleware('permission:manage_donations');
 
     // Contact Messages
     Route::get('/messages', [ContactController::class, 'adminIndex'])->name('messages.index')->middleware('permission:view_messages');
@@ -111,6 +117,22 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::post('/volunteers/{id}/reject', [VolunteeringController::class, 'rejectVolunteer'])->name('volunteers.reject')->middleware('permission:manage_volunteers');
     Route::post('/volunteers/{id}/reset', [VolunteeringController::class, 'resetVolunteer'])->name('volunteers.reset')->middleware('permission:manage_volunteers');
 
+
+    Route::get('/users/export', [AdminManagementController::class, 'exportUsers'])->name('users.export');
+    // ============================================================================
+    // ACHIEVEMENTS MANAGEMENT (NEW SECTION)
+    // ============================================================================
+    
+    // Full CRUD for achievements management (admin only)
+    Route::resource('achievements', AdminAchievementController::class)->middleware('permission:manage_campaigns');
+    
+    // Additional admin-only actions for achievements
+    Route::patch('achievements/{achievement}/toggle-status', [AdminAchievementController::class, 'toggleStatus'])->name('achievements.toggle-status')->middleware('permission:manage_campaigns');
+    Route::patch('achievements/{achievement}/toggle-featured', [AdminAchievementController::class, 'toggleFeatured'])->name('achievements.toggle-featured')->middleware('permission:manage_campaigns');
+    
+    // Preview how achievement looks on public page
+    Route::get('achievements/{achievement}/preview', [AdminAchievementController::class, 'preview'])->name('achievements.preview')->middleware('permission:view_campaigns');
+
     // --- Admin User Management Routes (already correctly set up) ---
     Route::prefix('admins')->name('admins.')->middleware('permission:manage_admins')->group(function () {
         Route::get('/', [AdminManagementController::class, 'indexAdmins'])->name('index');
@@ -123,6 +145,15 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
 
     // Admin Logout
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+    // Admin User Management Routes
+    Route::get('/users', [AdminManagementController::class, 'indexUsers'])->name('users.index');
+    Route::get('/users/{id}', [AdminManagementController::class, 'showUser'])->name('users.show');
+
+    // Donation AJAX status update (for admin panel buttons)
+    Route::post('/donations/{id}/update-status', [AdminDonationController::class, 'updateStatus'])
+        ->name('donations.update-status')
+        ->middleware('permission:manage_donations');
 
 }); // End of admin group
 

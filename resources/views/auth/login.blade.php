@@ -18,12 +18,12 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- Email Address -->
+                <!-- Email or Phone -->
                 <div>
-                    <x-input-label for="email" :value="__('Email')" class="!text-gray-300" />
+                    <x-input-label for="login" :value="__('Email or Phone')" class="!text-gray-300" />
 
-                    <x-text-input id="email" class="block mt-1 w-full bg-gray-700 text-white border border-gray-600 rounded-md p-3 focus:outline-none focus:border-orange-400" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-text-input id="login" class="block mt-1 w-full bg-gray-700 text-white border border-gray-600 rounded-md p-3 focus:outline-none focus:border-orange-400" type="text" name="login" :value="old('login')" required autofocus autocomplete="username" />
+                    <x-input-error :messages="$errors->get('login')" class="mt-2" />
                 </div>
 
                 <!-- Password -->

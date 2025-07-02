@@ -286,4 +286,90 @@ class AdminDonationController extends Controller
         
         return response()->stream($callback, 200, $headers);
     }
+
+    /**
+     * Update donation status via AJAX POST (for admin panel buttons)
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        // Check if user has permission to manage donations (not just view)
+        if (!auth('admin')->user()->hasPermission('manage_donations')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action. You can only view donations.'
+            ], 403);
+        }
+        
+        $donation = Donation::findOrFail($id);
+        $oldStatus = $donation->status;
+        $newStatus = $request->status;
+        
+        $donation->status = $newStatus;
+        $donation->save();
+
+        // If the status changed from pending to completed, update the cause raised amount
+        if ($oldStatus === 'pending' && $newStatus === 'completed') {
+            $cause = Cause::findOrFail($donation->cause_id);
+            $cause->raised += $donation->amount;
+            $cause->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Donation status updated successfully',
+            'donation' => $donation
+        ]);
+    }
+
+    /**
+     * Send an apology email to the donor for cancelled donations.
+     */
+    public function sendApology($id)
+    {
+        // Check if user has permission to manage donations (not just view)
+        if (!auth('admin')->user()->hasPermission('manage_donations')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action. You can only view donations.'
+            ], 403);
+        }
+        
+        $donation = Donation::find($id);
+        
+        if (!$donation || !$donation->email) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Donation not found or donor has no email'
+            ]);
+        }
+        
+        // Get the cause information
+        $cause = Cause::find($donation->cause_id);
+        
+        if (!$cause) {
+            $cause = new \stdClass();
+            $cause->title = 'General Donation';
+        }
+        
+        try {
+            // Send apology email
+            \Mail::to($donation->email)
+                ->send(new \App\Mail\DonationApologyMail($donation, $cause));
+                
+            // Return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Apology email sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            // Log the error
+            \Illuminate\Support\Facades\Log::error('Failed to send donation apology email: ' . $e->getMessage());
+            
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send email: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

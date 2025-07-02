@@ -59,7 +59,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white mb-1">Email Us</h3>
-                            <p class="text-gray-400">tiu@tishk.edu.iq</p>
+                            <p class="text-gray-400">info@tishk.edu.iq</p>
                             <p class="text-gray-400">contact@tishk.edu.iq</p>
                         </div>
                     </div>

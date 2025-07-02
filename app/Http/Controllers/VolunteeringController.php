@@ -60,6 +60,7 @@ class VolunteeringController extends Controller
     {
         $request->validate([
             'project_id' => 'required|exists:projects,id',
+            'phone' => 'required|string|max:20',
             'message' => 'nullable|string|max:500',
         ]);
         
@@ -77,6 +78,7 @@ class VolunteeringController extends Controller
         Volunteer::create([
             'user_id' => Auth::id(),
             'project_id' => $request->project_id,
+            'phone' => $request->phone,
             'message' => $request->message,
             'status' => 'pending',
         ]);

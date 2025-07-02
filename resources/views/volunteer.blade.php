@@ -218,6 +218,16 @@
                                             <input type="hidden" name="project_id" value="{{ $project->id }}">
                                             
                                             <div class="mb-5">
+                                                <label for="phone_{{ $project->id }}" class="block text-white text-sm font-medium mb-2">Phone Number</label>
+                                                <input type="tel" name="phone" id="phone_{{ $project->id }}" value="{{ old('phone', auth()->user()->phone ?? '') }}" required
+                                                    class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition"
+                                                    placeholder="Your phone number">
+                                                @error('phone')
+                                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            
+                                            <div class="mb-5">
                                                 <label for="message_{{ $project->id }}" class="block text-white text-sm font-medium mb-2">Message (Optional)</label>
                                                 <textarea 
                                                     name="message" 

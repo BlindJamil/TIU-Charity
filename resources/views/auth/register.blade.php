@@ -45,6 +45,128 @@
                     @enderror
                 </div>
                 
+                <!-- Phone Number -->
+                <div class="mb-4">
+                    <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                    <input id="phone"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           type="text"
+                           name="phone"
+                           value="{{ old('phone') }}"
+                           required
+                           autocomplete="tel" />
+                    @error('phone')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- City -->
+                <div class="mb-4">
+                    <label for="city" class="block text-sm font-medium text-gray-300 mb-1">City (optional)</label>
+                    <input id="city"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           type="text"
+                           name="city"
+                           value="{{ old('city') }}"
+                           autocomplete="address-level2" />
+                    @error('city')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Address -->
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-300 mb-1">Full Address (optional)</label>
+                    <textarea id="address"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           name="address"
+                           rows="3"
+                           placeholder="Street address, building, apartment, etc. (city can be included here or above)">{{ old('address') }}</textarea>
+                    @error('address')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Student ID -->
+                <div class="mb-4">
+                    <label for="student_id" class="block text-sm font-medium text-gray-300 mb-1">Student ID (optional)</label>
+                    <input id="student_id"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           type="text"
+                           name="student_id"
+                           value="{{ old('student_id') }}" />
+                    @error('student_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Department -->
+                <div class="mb-4">
+                    <label for="department" class="block text-sm font-medium text-gray-300 mb-1">Department (optional)</label>
+                    <select id="department"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           name="department">
+                        <option value="">Select Department</option>
+                        <option value="Computer Engineering" {{ old('department') == 'Computer Engineering' ? 'selected' : '' }}>Computer Engineering</option>
+                        <option value="Civil Engineering" {{ old('department') == 'Civil Engineering' ? 'selected' : '' }}>Civil Engineering</option>
+                        <option value="Architecture" {{ old('department') == 'Architecture' ? 'selected' : '' }}>Architecture</option>
+                        <option value="Business Administration" {{ old('department') == 'Business Administration' ? 'selected' : '' }}>Business Administration</option>
+                        <option value="International Relations" {{ old('department') == 'International Relations' ? 'selected' : '' }}>International Relations</option>
+                        <option value="English Language Teaching" {{ old('department') == 'English Language Teaching' ? 'selected' : '' }}>English Language Teaching</option>
+                        <option value="Law" {{ old('department') == 'Law' ? 'selected' : '' }}>Law</option>
+                        <option value="Medicine" {{ old('department') == 'Medicine' ? 'selected' : '' }}>Medicine</option>
+                        <option value="Dentistry" {{ old('department') == 'Dentistry' ? 'selected' : '' }}>Dentistry</option>
+                        <option value="Pharmacy" {{ old('department') == 'Pharmacy' ? 'selected' : '' }}>Pharmacy</option>
+                        <option value="Nursing" {{ old('department') == 'Nursing' ? 'selected' : '' }}>Nursing</option>
+                        <option value="Other" {{ old('department') == 'Other' ? 'selected' : '' }}>Other</option>
+                    </select>
+                    @error('department')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Graduation Year -->
+                <div class="mb-4">
+                    <label for="graduation_year" class="block text-sm font-medium text-gray-300 mb-1">Expected Graduation Year (optional)</label>
+                    <select id="graduation_year"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           name="graduation_year">
+                        <option value="">Select Year</option>
+                        @for($year = date('Y'); $year <= date('Y') + 10; $year++)
+                            <option value="{{ $year }}" {{ old('graduation_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endfor
+                    </select>
+                    @error('graduation_year')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Emergency Contact -->
+                <div class="mb-4">
+                    <label for="emergency_contact" class="block text-sm font-medium text-gray-300 mb-1">Emergency Contact Name (optional)</label>
+                    <input id="emergency_contact"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           type="text"
+                           name="emergency_contact"
+                           value="{{ old('emergency_contact') }}" />
+                    @error('emergency_contact')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                <!-- Emergency Phone -->
+                <div class="mb-4">
+                    <label for="emergency_phone" class="block text-sm font-medium text-gray-300 mb-1">Emergency Contact Phone (optional)</label>
+                    <input id="emergency_phone"
+                           class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                           type="text"
+                           name="emergency_phone"
+                           value="{{ old('emergency_phone') }}" />
+                    @error('emergency_phone')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                
                 <!-- Password -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>

@@ -62,8 +62,11 @@
         </div>
         <h3 class="text-xl text-white font-medium mb-2">No donations yet</h3>
         <p class="text-gray-400 mb-6">You haven't made any donations yet. Support a cause today to make a difference.</p>
-        <a href="{{ route('cause') }}" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded transition duration-300">
-            Browse Causes
+        <a href="{{ route('cause') }}" class="text-yellow-500 hover:text-yellow-400 text-sm inline-flex items-center">
+            Browse Campaigns
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
         </a>
     </div>
 @endif
