@@ -5,7 +5,7 @@
 @section('content')
 <div class="min-h-screen bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white t-20">
     <!-- About Page Hero Section with improved overlay and spacing -->
-<section class="relative bg-gray-900 text-white pt-24">
+<section class="relative bg-gray-900 text-white pt-8 md:pt-12">
     <!-- Background Image with better overlay -->
     <div class="bg-cover bg-center h-96 relative" style="background-image: url('{{asset('assets/img/abou2.jpg')}}');">
         <!-- Dark overlay for better text visibility -->

@@ -49,7 +49,7 @@
 </style>
 
 <!-- Hero Section -->
-<section class="relative bg-gray-900 text-white pt-24">
+<section class="relative bg-gray-900 text-white pt-8 md:pt-12">
     <div class="bg-cover bg-center h-96 relative" style="background-image: url('{{asset('assets/img/abou2.jpg')}}');">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         

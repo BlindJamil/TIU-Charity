@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative bg-gray-900 text-white pt-24">
+<section class="relative bg-gray-900 text-white pt-8 md:pt-12">
     <!-- Background Image with Overlay -->
     <div class="bg-cover bg-center h-72 relative" style="background-image: url('{{asset('assets/img/abou2.jpg')}}');">
         <div class="absolute inset-0 bg-black bg-opacity-60"></div>

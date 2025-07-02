@@ -1,10 +1,12 @@
 <nav id="header" class="bg-gray-900 text-white fixed w-full top-0 z-50 transition-transform duration-300" x-data="{ mobileMenuOpen: false }">
-    <div class="container mx-auto px-4 py-3">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-3">
         <div class="flex justify-between items-center">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="{{ route('home') }}" class="block w-20">
-                    <img src="{{ asset('assets/img/Logo_of_Tishk_International_University.png') }}" alt="TIU Logo" class="h-auto w-full">
+                <a href="{{ route('home') }}" class="block">
+                    <div class="bg-white rounded-lg shadow flex items-center justify-center" style="width:52px; height:52px;">
+                        <img src="{{ asset('assets/img/Logo_of_Tishk_International_University.png') }}" alt="TIU Logo" class="h-11 w-auto" style="max-height:44px; max-width:44px;">
+                    </div>
                 </a>
             </div>
             
